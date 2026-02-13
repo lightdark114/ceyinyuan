@@ -399,9 +399,9 @@ document.addEventListener('contextmenu', function(e) {
 // 防止F12开发者工具（基础防护）
 document.onkeydown = function(e) {
     if (e.keyCode == 123) return false; // F12
-    if (e.trlKey && e.shiftKey && e.keyCode == 73) return false; // Ctrl+Shift+I
-    if (e.trlKey && e.shiftKey && e.keyCode == 74) return false; // Ctrl+Shift+J
-    if (e.trlKey && e.keyCode == 85) return false; // Ctrl+U
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) return false; // Ctrl+Shift+I
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) return false; // Ctrl+Shift+J
+    if (e.ctrlKey && e.keyCode == 85) return false; // Ctrl+U
 };
 
     </script>
