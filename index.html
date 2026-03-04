@@ -319,16 +319,8 @@ function startCalculation() {
 // 显示测算结果
 function showResult(name1, name2) {
     // 生成随机匹配度（70-99%）
-    let score = Math.floor(Math.random() * 30) + 70;
-    if (name1=="张百川"&&name2=="1"){
-        score=99;
-    }
-    if (name1=="刘守润"&&name2=="0"){
-        score=99;
-    }
-    if (name1=="刘守润"&&name2=="洛天依"){
-        score=99;
-    }
+    const score = Math.floor(Math.random() * 30) + 70;
+
     // 根据分数生成星数
     let stars = '';
     if (score >= 90) stars = '★★★★★';
